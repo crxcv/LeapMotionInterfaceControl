@@ -1,8 +1,20 @@
+//import processing.core.PApplet;
 import java.util.concurrent.atomic.AtomicInteger;
 
+static abstract class Counter{
+  static int ctr = 0;
 
-class MenuPanel{
- final AtomicInteger idGenerator = new AtomicInteger(0);
+  Counter(){
+    ctr++;
+  }
+
+
+
+
+}
+class MenuPanel extends Counter{
+ //final AtomicInteger idGenerator = new AtomicInteger();;
+ //static int instanceCounter = 0;
 
  int id;
  private PVector pos;
@@ -26,7 +38,7 @@ class MenuPanel{
  int col;
 
  boolean visible;
- boolean move;
+
 
  MenuPanel(String name, float posX, float posY, int col) {
 
@@ -49,8 +61,9 @@ class MenuPanel{
      hookIcoBlack = loadImage("hook-s_black.png");
      hookIcoGrey = loadImage("hook-s_grey.png");
 
-     this.id = idGenerator.getAndIncrement();
-     println("panel id: "+ this.id);
+     //idGenerator.getAndIncrement();
+
+     this.id = ctr;
      visible = true;
  }
 
@@ -66,6 +79,7 @@ class MenuPanel{
      rect(pos.x, pos.y, dimension.x, dimension.y);
 
      //draw text
+     textAlign(LEFT);
      fill(0);
      text(this.name, this.textPos.x, this.textPos.y);
 
@@ -94,5 +108,10 @@ class MenuPanel{
    Ani.to(this.hookIcoPos, 1.0f, "y", (this.hookIcoPos.y - distance));
    Ani.to(this.clockIcoPos, 1.0f, "y", (this.clockIcoPos.y - distance));
 
+ }
+
+ void setPosition(float x, float y){
+   this.pos.x = x;
+   this.pos.y = y;
  }
 }

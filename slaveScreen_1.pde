@@ -53,10 +53,7 @@ void setup(){
     menuPanels.add(new MenuPanel(menues[i], rectPos.x, rectPos.y + i*elementDist, blue));
   }
 
-  for (MenuPanel m : menuPanels){
-    println("id: "+ m.getID());
-  }
-  buttons.add(new TimeoutButton(19, 684, 42, 42, .5));
+  buttons.add(new TimeoutButton(19, 19, 42, 42, .5));
 
   p5.addButton("refreshBtn")
      .setPosition(refreshBtnPosition.x, refreshBtnPosition.y)
@@ -90,6 +87,7 @@ void draw(){
 
   // name
   fill(0);
+  textAlign(LEFT);
   text(names[0], 14, 35);
 
   for (Hand hand : leap.getHands()){
@@ -98,15 +96,18 @@ void draw(){
     cursors.add(pos);
   }
 
-  for (TimeoutButton b : buttons){
-    b.update(cursors);
-  }
-
   if (showMenues){
     for (MenuPanel menu : menuPanels){
       menu.render();
     }
   }
+
+  for (TimeoutButton b : buttons){
+    b.render();
+  }
+
+  // interface - end
+
   // draw index finger
   for (Hand hand : leap.getHands()){
     PVector finger = hand.getThumb().getRawPositionOfJointTip();
@@ -126,6 +127,11 @@ void draw(){
 
   }
 
+
+    for (TimeoutButton b : buttons){
+      b.update(cursors);
+    }
+
 } // end of draw
 
 public void refreshPanels(){
@@ -141,14 +147,17 @@ public void controlEvent(ControlEvent theEvent){
 
 public void refreshBtn(int theValue){
   println("button event from refreshButton: "+theValue);
-      for(MenuPanel m : menuPanels){
-     m.setVisible(true);
+    for(MenuPanel m : menuPanels){
+      m.setPosition(rectPos.x, rectPos.y + elementDist * (m.getID()-1));
+      m.setVisible(true);
   }
 }
 
 void handleFinger(PVector pos, String id){
   float x = map(pos.x, -INTERACTION_SPACE_WIDTH, INTERACTION_SPACE_WIDTH, 0, width);
   float y = map(pos.z, -INTERACTION_SPACE_DEPTH, INTERACTION_SPACE_DEPTH, 0, height);
+
+  cursors.add(new PVector(x, y));
 
   // println("finger y: "+y);
 
@@ -171,7 +180,8 @@ void handleSwipe(float x, float y){
       println("deactivated panel no "+ id);
 
       for (MenuPanel m : menuPanels){
-        if (id >= m.getID()){
+        if (m.getID() > id){
+          println("moving panel no " + m.getID());
           m.movePanel();
         }
       }
