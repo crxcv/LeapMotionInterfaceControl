@@ -2,7 +2,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 class MenuPanel{
-  final AtomicInteger idGenerator = new AtomicInteger(0);
+ final AtomicInteger idGenerator = new AtomicInteger(0);
 
  int id;
  private PVector pos;
@@ -28,7 +28,7 @@ class MenuPanel{
  boolean visible;
  boolean move;
 
- MenuPanel(String name, int posX, int posY, int col) {
+ MenuPanel(String name, float posX, float posY, int col) {
 
      this.name = name;
      this.pos = new PVector(posX, posY);

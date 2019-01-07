@@ -20,21 +20,12 @@ PVector gesturePosition;
 PVector refreshBtnPosition;
 PVector refreshBtnDimension;
 
-String [] names = {"Diana Schneider", "Paul Hölzer"};
-String [] menues = {"Zwei hausgemachte Fleischköchle", "Käsespätzle mit Rahmsoße", "Käsespätzle mit Rindfleisch", "Maultaschen mit Soße"};
 
-int[] rectSize  = {334, 115};
-int[] rectPos = {76, 130};
-int elementDist = 130;
+PVector rectPos;
+int elementDist;
 
-int[] menueTextPos = {86, 135};
-
-int[] cookIcoPos = {86, 180};
-int[] clockIcoPos = {178, 180};
-int[] hookIcoPos = {263, 185};
 
 boolean showMenues = true;
-boolean [] menueVisible = {true, true, true, true};
 
 int yellow =  color(198, 200, 12);
 int blue =  color(12, 80, 120);
@@ -43,19 +34,32 @@ PImage cookIco;
 PImage clockIco;
 PImage hookIco_s;
 
+String [] names = {"Diana Schneider", "Paul Hölzer"};
+String [] menues = {"Zwei hausgemachte Fleischköchle", "Käsespätzle mit Rahmsoße", "Käsespätzle mit Rindfleisch", "Maultaschen mit Soße"};
+
+
 void setup(){
   size(414, 736);
   p5 = new ControlP5(this);
   leap = new LeapMotion(this).allowGestures("swipe, key_tap");
 
+  rectPos = new PVector(76, 130);
+  elementDist = 130;
+
+  refreshBtnPosition = new PVector(322, 13);
+  refreshBtnDimension = new PVector(70, 58);
 
   for(int i = 0; i < 4; i++){
-    menuPanels.add(new MenuPanel(menues[i], rectPos[0], rectPos[1] + i*elementDist, blue));
+    menuPanels.add(new MenuPanel(menues[i], rectPos.x, rectPos.y + i*elementDist, blue));
+  }
+
+  for (MenuPanel m : menuPanels){
+    println("id: "+ m.getID());
   }
   buttons.add(new TimeoutButton(19, 684, 42, 42, .5));
 
   p5.addButton("refreshBtn")
-     .setPosition(322, 13)
+     .setPosition(refreshBtnPosition.x, refreshBtnPosition.y)
      .setImages(loadImage("refresh_black.png"), loadImage("refresh_grey.png"), loadImage("refresh_grey.png"))
      .updateSize();
 
